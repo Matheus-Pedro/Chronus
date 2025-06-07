@@ -3,6 +3,9 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Ignore temporally the mcp project
+Chronus.Mcp/
+
 # dotenv files
 .env
 
