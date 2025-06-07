@@ -24,7 +24,6 @@ public class TaskController : ControllerBase
         _mediator = mediator;
     }
 
-
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

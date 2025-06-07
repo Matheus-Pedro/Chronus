@@ -5,6 +5,8 @@ using Chronus.Domain.Repositories;
 using Chronus.Infrastructure.Postgres.Repositories;
 using Chronus.Application.Common.Security;
 using Chronus.Infrastructure.Identity;
+using Chronus.Infrastructure.Chronus.Infrastrucuture.Subscription;
+using Chronus.Application.Services;
 
 namespace Chronus.Infrastructure;
 
@@ -17,10 +19,12 @@ public static class DependencyInjection
 
         services.AddScoped<ITaskItemRepository, TaskItemRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ISubscriptionService, SubscriptionService>();
 
-        return services;
+        return services; 
     }
 }
