@@ -7,6 +7,8 @@ using Chronus.Application.Common.Security;
 using Chronus.Infrastructure.Identity;
 using Chronus.Infrastructure.Chronus.Infrastrucuture.Subscription;
 using Chronus.Application.Services;
+using Chronus.Infrastructure.Payments;
+using Stripe.Checkout;
 
 namespace Chronus.Infrastructure;
 
@@ -24,6 +26,8 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<ISubscriptionService, SubscriptionService>();
+        services.AddSingleton<SessionService>();
+        services.AddScoped<IPaymentService, StripePaymentService>();
 
         return services; 
     }
