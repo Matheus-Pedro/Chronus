@@ -1,3 +1,7 @@
+# Chronus
+
+[Landing Page](docs/landing/index.html)
+
 ## How to run this project
 
 Use this command in your interface line.

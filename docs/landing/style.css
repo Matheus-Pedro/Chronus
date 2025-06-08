@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?auto=format&fit=crop&w=1050&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+.card-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
