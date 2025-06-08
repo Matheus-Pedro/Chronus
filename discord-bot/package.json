@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js",
+    "deploy:global": "node deploy-commands.js global",
+    "deploy:guild": "node deploy-commands.js guild",
+    "clear": "node clear-commands.js all",
+    "clear:global": "node clear-commands.js global",
+    "clear:guild": "node clear-commands.js guild",
+    "dev": "npm run deploy && npm start"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +20,7 @@
   "type": "commonjs",
   "dependencies": {
     "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0",
     "node-fetch": "^2.7.0"
   }
 }
