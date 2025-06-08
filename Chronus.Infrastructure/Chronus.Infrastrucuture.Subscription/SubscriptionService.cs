@@ -25,7 +25,7 @@ public class SubscriptionService : ISubscriptionService
     public async Task<bool> HasAccessToFeature(int userId, string feature)
     {
         var subscription = await _subscriptionRepository.GetByUserIdAsync(userId);
-        return subscription.IsActive && FeatureMap[subscription.Type].Contains(feature);
+        return subscription != null && subscription.IsActive && FeatureMap[subscription.Type].Contains(feature);
     }
 
     public async Task<SubscriptionType> GetSubscriptionType(int userId)

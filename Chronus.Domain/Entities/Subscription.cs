@@ -16,9 +16,11 @@ public class Subscription
     public bool IsActive => EndDate == null || EndDate > DateTime.UtcNow;
     public bool IsCanceled => CanceledAt != null;
 
-    public Subscription(Guid id, int userId, SubscriptionType type, DateTime startDate, DateTime endDate)
+    public Subscription() { }
+
+    public Subscription(Guid id, int userId, SubscriptionType type, DateTime startDate, DateTime? endDate)
     {
-        if (endDate < startDate)
+        if (endDate.HasValue && endDate < startDate)
             throw new ArgumentException("End date must be after start date");
         
         Id = id;
