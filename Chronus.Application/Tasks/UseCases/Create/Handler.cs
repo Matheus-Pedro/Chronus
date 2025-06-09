@@ -21,7 +21,12 @@ public class Handler : IRequestHandler<CreateTaskCommand, Response>
     {
         var userId = _currentUserService.Id;
 
-        var task = new TaskItem(userId, request.Title, request.Description, request.DueDate);
+        // Garantir que a DueDate seja UTC
+        var dueDate = request.DueDate.Kind == DateTimeKind.Unspecified 
+            ? DateTime.SpecifyKind(request.DueDate, DateTimeKind.Utc)
+            : request.DueDate.ToUniversalTime();
+
+        var task = new TaskItem(userId, request.Title, request.Description, dueDate);
         await _repo.AddAsync(task, cancellationToken);
         return new Response(task.Id, task.Title);
     }

@@ -18,4 +18,30 @@ public class ChronusDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ChronusDbContext).Assembly);
     }
+
+    public override int SaveChanges()
+    {
+        ConvertDatesToUtc();
+        return base.SaveChanges();
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        ConvertDatesToUtc();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void ConvertDatesToUtc()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            foreach (var property in entry.Properties)
+            {
+                if (property.CurrentValue is DateTime dateTime && dateTime.Kind == DateTimeKind.Unspecified)
+                {
+                    property.CurrentValue = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+                }
+            }
+        }
+    }
 }

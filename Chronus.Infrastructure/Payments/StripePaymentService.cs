@@ -20,6 +20,25 @@ public class StripePaymentService : IPaymentService
 
     public async Task<string> CreateCheckoutSession(int userId, SubscriptionType type, CancellationToken cancellationToken = default)
     {
+        Console.WriteLine($"🔄 StripePaymentService.CreateCheckoutSession - userId: {userId}, type: {type}");
+        
+        // Verificar se é plano Free
+        if (type == SubscriptionType.Free)
+        {
+            Console.WriteLine("⚠️ Tentativa de criar checkout para plano Free - não permitido");
+            throw new InvalidOperationException("Não é possível criar checkout para plano gratuito");
+        }
+
+        // Obter o Price ID da configuração
+        var priceId = _configuration[$"Stripe:Prices:{type}"];
+        Console.WriteLine($"💰 Price ID encontrado: {priceId} para tipo: {type}");
+        
+        if (string.IsNullOrEmpty(priceId))
+        {
+            Console.WriteLine($"❌ Price ID não encontrado na configuração para tipo: {type}");
+            throw new InvalidOperationException($"Price ID não configurado para o plano {type}");
+        }
+
         var options = new SessionCreateOptions
         {
             Mode = "subscription",
@@ -30,13 +49,18 @@ public class StripePaymentService : IPaymentService
             {
                 new()
                 {
-                    Price = _configuration[$"Stripe:Prices:{type}"]!,
+                    Price = priceId,
                     Quantity = 1
                 }
             }
         };
 
+        Console.WriteLine($"🚀 Criando sessão Stripe com options: Mode={options.Mode}, Price={priceId}, UserId={userId}");
+
         var session = await _sessionService.CreateAsync(options, null, cancellationToken);
+        
+        Console.WriteLine($"✅ Sessão criada com sucesso: {session.Id}, URL: {session.Url}");
+        
         return session.Url;
     }
 }

@@ -59,9 +59,28 @@ public static class DependencyInjection
         {
             options.AddPolicy("CorsPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
+                builder
+                    .WithOrigins(
+                        "http://localhost:3000",
+                        "http://localhost:3001", 
+                        "http://localhost:3002",
+                        "https://localhost:3000",
+                        "https://localhost:3001",
+                        "https://localhost:3002",
+                        "https://localhost:5000"
+                    )
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+
+            // Política mais permissiva para desenvolvimento
+            options.AddPolicy("Development", builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
         });
 
