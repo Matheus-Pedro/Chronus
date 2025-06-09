@@ -15,6 +15,12 @@ public class Handler : IRequestHandler<UpdateTaskCommand, Response>
         if (task == null)
             throw new InvalidOperationException($"Task with ID {request.Id} not found");
 
+        // Garantir que a DueDate seja UTC
+        var dueDate = request.DueDate.Kind == DateTimeKind.Unspecified 
+            ? DateTime.SpecifyKind(request.DueDate, DateTimeKind.Utc)
+            : request.DueDate.ToUniversalTime();
+
+        task.Update(request.Title, request.Description, dueDate);
         await _taskItemRepository.UpdateAsync(task, cancellationToken);
         return new Response(task);
     }

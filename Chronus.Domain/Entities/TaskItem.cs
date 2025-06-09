@@ -20,24 +20,37 @@ public class TaskItem
         UserId = userId;
         Title = title;
         Description = description;
-        DueDate = dueDate;
+        
+        // Garantir que todas as datas sejam UTC
+        DueDate = EnsureUtc(dueDate);
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Update(string title, string description, DateTime dueDate)
     {
         Title = title;
         Description = description;
-        DueDate = dueDate;
+        DueDate = EnsureUtc(dueDate);
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void Complete()
     {
         CompletedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Uncomplete()
     {
         CompletedAt = null;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    private static DateTime EnsureUtc(DateTime dateTime)
+    {
+        return dateTime.Kind == DateTimeKind.Unspecified 
+            ? DateTime.SpecifyKind(dateTime, DateTimeKind.Utc)
+            : dateTime.ToUniversalTime();
     }
 }
