@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+\n# Next.js build output\n.next/
